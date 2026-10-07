@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#040E0B">
+<meta name="description" content="Ре:Терра — дроны и нейросети против опустынивания и деградации почв.">
+<title>Ре:Терра — презентация для инвесторов</title>
+
+<style>
+  /* ========== БАЗА ========== */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --green: #4ADE80;
+    --green-l: #7BE495;
+    --green-d: #22C55E;
+    --gold: #F5B942;
+    --blue: #38BDF8;
+    --mint: #6EE7A0;
+    --text: #E8F5EE;
+    --muted: #9DB4A8;
+    --dim: #6F8A7C;
+
+    --f-hero: clamp(34px, 5vw, 78px);
+    --f-h1: clamp(24px, 2.8vw, 44px);
+    --f-h2: clamp(18px, 1.9vw, 30px);
+    --f-h3: clamp(15px, 1.2vw, 20px);
+    --f-body: clamp(13px, 0.95vw, 16px);
+    --f-small: clamp(11px, 0.8vw, 13px);
+    --f-metric: clamp(30px, 3.6vw, 58px);
+
+    --gap: clamp(12px, 1.4vw, 22px);
+    --pad: clamp(18px, 4vw, 70px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    background: #040E0B;
+    color: var(--text);
+    font-family:
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Arial,
+      sans-serif;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  /* ========== ФОН ========== */
+
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: -3;
+    background:
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(20, 70, 45, 0.16),
+        transparent 55%
+      ),
+      #040E0B;
+  }
+
+  .bg-layer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse at 20% 20%,
+        rgba(34, 197, 94, 0.07),
+        transparent 42%
+      ),
+      radial-gradient(
+        ellipse at 80% 75%,
+        rgba(245, 185, 66, 0.05),
+        transparent 40%
+      );
+  }
+
+  .bg-layer .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .bg-layer .b1 {
+    width: 1000px;
+    height: 1000px;
+    top: -280px;
+    right: -260px;
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 197, 94, 0.34),
+        rgba(34, 197, 94, 0) 68%
+      );
+    animation: breathe1 22s ease-in-out infinite;
+  }
+
+  .bg-layer .b2 {
+    width: 900px;
+    height: 900px;
+    bottom: -320px;
+    left: -240px;
+    background:
+      radial-gradient(
+        circle,
+        rgba(245, 185, 66, 0.18),
+        rgba(245, 185, 66, 0) 68%
+      );
+    animation: breathe2 28s ease-in-out infinite;
+    animation-delay: -6s;
+  }
+
+  .bg-layer .b3 {
+    width: 800px;
+    height: 800px;
+    top: 42%;
+    left: 42%;
+    background:
+      radial-gradient(
+        circle,
+        rgba(56, 189, 248, 0.14),
+        rgba(56, 189, 248, 0) 70%
+      );
+    animation: breathe1 34s ease-in-out infinite reverse;
+    animation-delay: -12s;
+  }
+
+  @keyframes breathe1 {
+    0%, 100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 0.65;
+    }
+
+    50% {
+      transform: scale(1.18) translate(20px, -14px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes breathe2 {
+    0%, 100% {
+      transform: scale(1.05) translate(0, 0);
+      opacity: 0.55;
+    }
+
+    50% {
+      transform: scale(0.92) translate(-18px, 22px);
+      opacity: 0.9;
+    }
+  }
+
+  /* Тонкая сетка поверх фона */
+
+  .grid-lines {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(
+        rgba(74, 222, 128, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(74, 222, 128, 0.035) 1px,
+        transparent 1px
+      );
+
+    background-size: 96px 96px;
+
+    mask-image:
+      radial-gradient(
+        ellipse 70% 60% at 50% 40%,
+        black 30%,
+        transparent 85%
+      );
+
+    -webkit-mask-image:
+      radial-gradient(
+        ellipse 70% 60% at 50% 40%,
+        black 30%,
+        transparent 85%
+      );
+  }
+
+  /* ========== ПРОГРЕСС-БАР ========== */
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 3px;
+    width: 0%;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--green-d),
+        var(--green),
+        var(--gold)
+      );
+
+    z-index: 100;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 18px rgba(74, 222, 128, 0.6);
+  }
+
+  /* ========== ЛОГОТИП ========== */
+
+  .brand {
+    position: fixed;
+    top: clamp(16px, 2vw, 28px);
+    left: clamp(18px, 3vw, 46px);
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    z-index: 100;
+
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(74, 222, 128, 0.6);
+    border-radius: 50%;
+
+    background:
+      radial-gradient(
+        circle,
+        rgba(74, 222, 128, 0.12),
+        rgba(74, 222, 128, 0.02)
+      );
+
+    box-shadow:
+      0 0 20px rgba(74, 222, 128, 0.14),
+      inset 0 0 14px rgba(74, 222, 128, 0.06);
+  }
+
+  .brand-mark::before {
+    content: "";
+    position: absolute;
+
+    width: 20px;
+    height: 10px;
+
+    border-top: 1px solid var(--green);
+    border-bottom: 1px solid rgba(74, 222, 128, 0.55);
+
+    border-radius: 50%;
+
+    transform: rotate(-18deg);
+  }
+
+  .brand-mark::after {
+    content: "";
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: var(--gold);
+
+    box-shadow:
+      0 0 9px rgba(245, 185, 66, 0.7);
+
+    transform: translate(7px, -7px);
+  }
+
+  .brand-sprout {
+    position: absolute;
+
+    width: 7px;
+    height: 13px;
+
+    border-left: 1px solid var(--green-l);
+    border-radius: 0 0 0 100%;
+
+    transform:
+      translate(-2px, 2px)
+      rotate(28deg);
+  }
+
+  .brand-text {
+    color: var(--text);
+  }
+
+  .brand-text span {
+    color: var(--green);
+  }
+
+  /* ========== БОКОВАЯ НАВИГАЦИЯ ========== */
+
+  .side-nav {
+    position: fixed;
+    top: 50%;
+    right: clamp(12px, 1.6vw, 26px);
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    z-index: 90;
+
+    padding: 12px 10px;
+
+    border-radius: 30px;
+
+    background: rgba(8, 32, 28, 0.55);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+
+    transition: opacity 0.4s;
+  }
+
+  .side-nav button {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 5px;
+    border: none;
+    padding: 0;
+
+    background: rgba(232, 245, 238, 0.22);
+
+    cursor: pointer;
+
+    transition:
+      all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .side-nav button:hover {
+    background: rgba(74, 222, 128, 0.55);
+  }
+
+  .side-nav button.active {
+    background: var(--green);
+    height: 26px;
+
+    box-shadow:
+      0 0 14px rgba(74, 222, 128, 0.7);
+  }
+
+  @media (max-width: 640px) {
+    .side-nav {
+      display: none;
+    }
+  }
+
+  /* ========== СЕКЦИИ ========== */
+
+  .slide {
+    position: relative;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding:
+      clamp(88px, 12vh, 130px)
+      var(--pad)
+      clamp(70px, 9vh, 110px);
+
+    display: flex;
+    align-items: center;
+
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+
+    overflow: hidden;
+  }
+
+  .slide-inner {
+    width: 100%;
+    max-width: 1420px;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: clamp(18px, 2.4vh, 34px);
+  }
+
+  /* ========== REVEAL ON SCROLL ========== */
+
+  [data-reveal] {
+    opacity: 0;
+
+    transform:
+      translateY(-48px)
+      scale(0.985);
+
+    filter: blur(10px);
+
+    transition:
+      opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+
+    will-change:
+      transform,
+      opacity,
+      filter;
+  }
+
+  [data-reveal].in {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter: blur(0);
+  }
+
+  /* Каскад задержек */
+
+  [data-delay="1"] {
+    transition-delay: 0.06s;
+  }
+
+  [data-delay="2"] {
+    transition-delay: 0.14s;
+  }
+
+  [data-delay="3"] {
+    transition-delay: 0.22s;
+  }
+
+  [data-delay="4"] {
+    transition-delay: 0.30s;
+  }
+
+  [data-delay="5"] {
+    transition-delay: 0.38s;
+  }
+
+  [data-delay="6"] {
+    transition-delay: 0.46s;
+  }
+
+  /* ========== ТИПОГРАФИКА ========== */
+
+  .kicker {
+    font-size: clamp(10.5px, 0.8vw, 13px);
+
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: var(--green);
+  }
+
+  .kicker.gold {
+    color: var(--gold);
+  }
+
+  .kicker.mint {
+    color: var(--mint);
+  }
+
+  .kicker.dim {
+    color: var(--dim);
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.08;
+  }
+
+  .hero-title {
+    font-size: var(--f-hero);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    max-width: 1100px;
+  }
+
+  .hero-title .accent {
+    color: var(--green);
+  }
+
+  .hero-title .gold {
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    max-width: 760px;
+
+    color: var(--muted);
+
+    font-size: clamp(15px, 1.15vw, 19px);
+    line-height: 1.65;
+  }
+
+  .section-title {
+    font-size: var(--f-h1);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .section-description {
+    max-width: 760px;
+
+    color: var(--muted);
+
+    font-size: var(--f-body);
+    line-height: 1.7;
+  }
+
+  /* ========== КАРТОЧКИ ========== */
+
+  .glass {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(18, 50, 39, 0.72),
+        rgba(8, 24, 20, 0.64)
+      );
+
+    border:
+      1px solid rgba(118, 211, 151, 0.13);
+
+    border-radius: 18px;
+
+    box-shadow:
+      0 16px 50px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .card {
+    padding: clamp(18px, 2vw, 30px);
+  }
+
+  .card-title {
+    font-size: var(--f-h3);
+    font-weight: 650;
+    margin-bottom: 9px;
+  }
+
+  .card-text {
+    color: var(--muted);
+
+    font-size: var(--f-body);
+    line-height: 1.65;
+  }
+
+  /* ========== КНОПКИ ========== */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 46px;
+
+    padding:
+      0
+      20px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(74, 222, 128, 0.28);
+
+    background:
+      rgba(74, 222, 128, 0.08);
+
+    color: var(--text);
+
+    font-size: 13px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+
+    background:
+      rgba(74, 222, 128, 0.14);
+
+    border-color:
+      rgba(74, 222, 128, 0.5);
+
+    box-shadow:
+      0 8px 25px rgba(74, 222, 128, 0.08);
+  }
+
+  .btn.primary {
+    background:
+      linear-gradient(
+        135deg,
+        rgba(74, 222, 128, 0.22),
+        rgba(34, 197, 94, 0.12)
+      );
+
+    border-color:
+      rgba(74, 222, 128, 0.45);
+  }
+
+  /* ========== HERO ========== */
+
+  .hero-layout {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1.35fr)
+      minmax(280px, 0.65fr);
+
+    gap: clamp(30px, 6vw, 90px);
+
+    align-items: center;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.5vh, 30px);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 24px;
+
+    border-left:
+      1px solid rgba(74, 222, 128, 0.35);
+  }
+
+  .hero-stat-number {
+    font-size: clamp(34px, 4vw, 60px);
+    font-weight: 700;
+    line-height: 1;
+
+    color: var(--green);
+
+    letter-spacing: -0.04em;
+  }
+
+  .hero-stat-label {
+    color: var(--muted);
+    font-size: var(--f-small);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 850px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-stat {
+      border-left: none;
+      border-top:
+        1px solid rgba(74, 222, 128, 0.25);
+      padding-left: 0;
+      padding-top: 20px;
+    }
+  }
+
+  /* ========== УТИЛИТЫ ========== */
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+  }
+
+  .between {
+    justify-content: space-between;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .green {
+    color: var(--green);
+  }
+
+  .gold {
+    color: var(--gold);
+  }
+
+  .blue {
+    color: var(--blue);
+  }
+
+  .mono {
+    font-family:
+      "SFMono-Regular",
+      Consolas,
+      "Liberation Mono",
+      monospace;
+  }
+
+  /* ========== АДАПТИВНОСТЬ ========== */
+
+  @media (max-width: 900px) {
+    .slide {
+      scroll-snap-stop: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="bg-layer" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<div class="grid-lines" aria-hidden="true"></div>
+
+<div class="progress" id="progress"></div>
+
+<a class="brand" href="#s1" aria-label="Ре:Терра">
+  <span class="brand-mark" aria-hidden="true">
+    <span class="brand-sprout"></span>
+  </span>
+
+  <span class="brand-text">
+    Ре:<span>Терра</span>
+  </span>
+</a>
+
+<nav class="side-nav" id="sideNav" aria-label="Навигация по презентации"></nav>
+
+<!-- ========== 01 · HERO ========== -->
+
+<section class="slide" id="s1">
+  <div class="slide-inner">
+
+    <div class="hero-layout">
+
+      <div class="hero-copy">
+
+        <div
+          class="kicker"
+          data-reveal
+          data-delay="1"
+        >
+          01 · Реабилитация земли
+        </div>
+
+        <h1
+          class="hero-title"
+          data-reveal
+          data-delay="2"
+        >
+          Возвращаем
+          <span class="accent">жизнь</span>
+          в почву.
+        </h1>
+
+        <p
+          class="hero-subtitle"
+          data-reveal
+          data-delay="3"
+        >
+          Ре:Терра объединяет дроны, нейросети и
+          точечное воздействие, чтобы восстанавливать
+          деградированные земли быстрее, дешевле
+          и измеримо.
+        </p>
+
+        <div
+          class="hero-actions"
+          data-reveal
+          data-delay="4"
+        >
+          <a
+            href="#s2"
+            class="btn primary"
+          >
+            Как это работает →
+          </a>
+
+          <a
+            href="#s6"
+            class="btn"
+          >
+            Для инвестора
+          </a>
+        </div>
+
+      </div>
+
+      <div
+        class="hero-stat glass"
+        data-reveal
+        data-delay="5"
+      >
+        <div class="hero-stat-number">
+          41%
+        </div>
+
+        <div class="hero-stat-label">
+          потенциальное снижение затрат
+          на восстановление земель
+          за счёт точечного подхода
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- ========== 02 · РЕШЕНИЕ ========== -->
+
+<section class="slide" id="s2">
+  <div class="slide-inner">
+
+    <div
+      class="kicker"
+      data-reveal
+      data-delay="1"
+    >
+      02 · Решение
+    </div>
+
+    <h2
+      class="section-title"
+      data-reveal
+      data-delay="2"
+    >
+      Землю нужно лечить
+      <span class="green">точечно.</span>
+    </h2>
+
+    <p
+      class="section-description"
+      data-reveal
+      data-delay="3"
+    >
+      Вместо обработки огромных площадей одним способом
+      Ре:Терра сначала находит проблемные участки,
+      определяет причину деградации и направляет ресурсы
+      именно туда, где они дают максимальный эффект.
+    </p>
+
+    <div
+      class="solution-grid"
+      data-reveal
+      data-delay="4"
+    >
+
+      <div class="glass card">
+        <div class="solution-number">01</div>
+
+        <h3 class="card-title">
+          Сканируем
+        </h3>
+
+        <p class="card-text">
+          Дроны собирают данные о состоянии поверхности,
+          растительности и влажности почвы.
+          Получается цифровая карта участка,
+          а не приблизительная оценка «на глаз».
+        </p>
+      </div>
+
+      <div class="glass card">
+        <div class="solution-number">02</div>
+
+        <h3 class="card-title">
+          Анализируем
+        </h3>
+
+        <p class="card-text">
+          Нейросеть выявляет зоны деградации,
+          сравнивает их состояние и помогает определить,
+          где необходимо вмешательство в первую очередь.
+        </p>
+      </div>
+
+      <div class="glass card">
+        <div class="solution-number">03</div>
+
+        <h3 class="card-title">
+          Воздействуем
+        </h3>
+
+        <p class="card-text">
+          Орошение, обработка и внесение необходимых
+          компонентов выполняются адресно.
+          Это снижает перерасход воды,
+          материалов и рабочего времени.
+        </p>
+      </div>
+
+      <div class="glass card">
+        <div class="solution-number">04</div>
+
+        <h3 class="card-title">
+          Проверяем
+        </h3>
+
+        <p class="card-text">
+          После обработки система повторно оценивает
+          участок и показывает динамику восстановления.
+          Результат можно измерять, сравнивать
+          и использовать для следующего цикла.
+        </p>
+      </div>
+
+    </div>
+
+    <div
+      class="solution-line"
+      data-reveal
+      data-delay="5"
+    >
+      <span></span>
+      <strong>
+        Данные → решение → точечное воздействие → измеримый результат
+      </strong>
+      <span></span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== 03 · ТЕХНОЛОГИИ ========== -->
+
+<section class="slide" id="s3">
+  <div class="slide-inner">
+
+    <div
+      class="kicker mint"
+      data-reveal
+      data-delay="1"
+    >
+      03 · Технологии
+    </div>
+
+    <h2
+      class="section-title"
+      data-reveal
+      data-delay="2"
+    >
+      Один цикл —
+      <span class="green">несколько уровней данных.</span>
+    </h2>
+
+    <p
+      class="section-description"
+      data-reveal
+      data-delay="3"
+    >
+      Ре:Терра объединяет наблюдение, анализ и физическое
+      воздействие в единую систему. Технология работает
+      не ради самой технологии — она нужна для принятия
+      более точных решений.
+    </p>
+
+    <div
+      class="tech-layout"
+      data-reveal
+      data-delay="4"
+    >
+
+      <div class="tech-main glass">
+
+        <div class="tech-orbit">
+
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="orbit orbit-3"></div>
+
+          <div class="tech-core">
+            <span class="tech-core-dot"></span>
+            <span>AI</span>
+          </div>
+
+          <div class="tech-node node-1">
+            <span class="node-icon">◉</span>
+            <small>Дроны</small>
+          </div>
+
+          <div class="tech-node node-2">
+            <span class="node-icon">⌁</span>
+            <small>Почва</small>
+          </div>
+
+          <div class="tech-node node-3">
+            <span class="node-icon">↗</span>
+            <small>Данные</small>
+          </div>
+
+          <div class="tech-node node-4">
+            <span class="node-icon">+</span>
+            <small>Ресурсы</small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="tech-list">
+
+        <div class="glass tech-item">
+
+          <div class="tech-item-number">
+            01
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Компьютерное зрение
+            </h3>
+
+            <p class="card-text">
+              Автоматическое обнаружение зон,
+              где состояние земли отличается
+              от окружающей территории.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass tech-item">
+
+          <div class="tech-item-number">
+            02
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Пространственная аналитика
+            </h3>
+
+            <p class="card-text">
+              Данные привязываются к конкретным
+              координатам, чтобы каждое решение
+              было связано с реальным участком.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass tech-item">
+
+          <div class="tech-item-number">
+            03
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Адаптивная обработка
+            </h3>
+
+            <p class="card-text">
+              Интенсивность воздействия может
+              изменяться в зависимости от состояния
+              конкретной зоны.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== 04 · РЕЗУЛЬТАТ ========== -->
+
+<section class="slide" id="s4">
+  <div class="slide-inner">
+
+    <div
+      class="kicker gold"
+      data-reveal
+      data-delay="1"
+    >
+      04 · Результат
+    </div>
+
+    <h2
+      class="section-title"
+      data-reveal
+      data-delay="2"
+    >
+      Инвестиция должна
+      <span class="gold">возвращаться результатом.</span>
+    </h2>
+
+    <p
+      class="section-description"
+      data-reveal
+      data-delay="3"
+    >
+      Ценность Ре:Терры — не только в восстановлении
+      земли. Система позволяет эффективнее использовать
+      воду, материалы, технику и человеческие ресурсы,
+      одновременно создавая измеримую динамику состояния
+      территории.
+    </p>
+
+    <div
+      class="metrics-grid"
+      data-reveal
+      data-delay="4"
+    >
+
+      <div class="metric-card glass">
+
+        <div class="metric-value green">
+          +41%
+        </div>
+
+        <div class="metric-label">
+          потенциальная эффективность
+          точечного подхода
+        </div>
+
+      </div>
+
+      <div class="metric-card glass">
+
+        <div class="metric-value gold">
+          12×
+        </div>
+
+        <div class="metric-label">
+          больше данных на единицу
+          обследуемой территории
+        </div>
+
+      </div>
+
+      <div class="metric-card glass">
+
+        <div class="metric-value blue">
+          3.4
+        </div>
+
+        <div class="metric-label">
+          т CO₂ потенциального
+          годового эффекта на гектар
+        </div>
+
+      </div>
+
+      <div class="metric-card glass">
+
+        <div class="metric-value mint">
+          24/7
+        </div>
+
+        <div class="metric-label">
+          цифровой мониторинг
+          состояния участка
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="calculator glass"
+      data-reveal
+      data-delay="5"
+    >
+
+      <div class="calculator-head">
+
+        <div>
+          <div class="kicker dim">
+            Модель масштаба
+          </div>
+
+          <h3 class="calculator-title">
+            Что меняется при увеличении площади?
+          </h3>
+        </div>
+
+        <div class="calculator-area" id="calcArea">
+          25 000 га
+        </div>
+
+      </div>
+
+      <div class="presets">
+
+        <button
+          class="preset"
+          data-area="10000"
+          type="button"
+        >
+          10 000 га
+        </button>
+
+        <button
+          class="preset active"
+          data-area="25000"
+          type="button"
+        >
+          25 000 га
+        </button>
+
+        <button
+          class="preset"
+          data-area="50000"
+          type="button"
+        >
+          50 000 га
+        </button>
+
+        <button
+          class="preset"
+          data-area="100000"
+          type="button"
+        >
+          100 000 га
+        </button>
+
+      </div>
+
+      <div class="calc-results">
+
+        <div class="calc-result">
+
+          <span class="calc-result-label">
+            Потенциальное связывание
+          </span>
+
+          <strong id="calcCO2">
+            85 000 т/год
+          </strong>
+
+        </div>
+
+        <div class="calc-result">
+
+          <span class="calc-result-label">
+            Экономический эффект
+          </span>
+
+          <strong
+            id="calcCarbon"
+            class="green"
+          >
+            ₽871,7 млн/год
+          </strong>
+
+        </div>
+
+        <div class="calc-result">
+
+          <span class="calc-result-label">
+            Экономия воды
+          </span>
+
+          <strong id="calcWater">
+            100M м³
+          </strong>
+
+        </div>
+
+        <div class="calc-result">
+
+          <span class="calc-result-label">
+            Совокупный эффект
+          </span>
+
+          <strong
+            id="calcTotal"
+            class="gold"
+          >
+            ₽900,0 млн/год
+          </strong>
+
+        </div>
+
+      </div>
+
+      <p class="calculator-note">
+        Расчёт является модельной оценкой для
+        визуализации масштабирования продукта.
+        Фактические показатели зависят от типа почвы,
+        климата, культуры и технологии восстановления.
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== 05 · НАУЧНАЯ ОСНОВА ========== -->
+
+<section class="slide" id="s5">
+  <div class="slide-inner">
+
+    <div
+      class="kicker"
+      data-reveal
+      data-delay="1"
+    >
+      05 · Научная основа
+    </div>
+
+    <h2
+      class="section-title"
+      data-reveal
+      data-delay="2"
+    >
+      Технология начинается
+      <span class="green">с измерения.</span>
+    </h2>
+
+    <p
+      class="section-description"
+      data-reveal
+      data-delay="3"
+    >
+      Ре:Терра строится вокруг цикла наблюдения,
+      анализа и проверки. Система не должна просто
+      сообщать, что участок «плохой» — она должна
+      помогать понять, что именно изменилось
+      и насколько эффективно вмешательство.
+    </p>
+
+    <div
+      class="science-grid"
+      data-reveal
+      data-delay="4"
+    >
+
+      <div class="science-main glass">
+
+        <div class="science-chart">
+
+          <div class="chart-header">
+
+            <div>
+              <span class="kicker dim">
+                Динамика
+              </span>
+
+              <h3>
+                Прогноз восстановления
+                2026 — 2030
+              </h3>
+            </div>
+
+            <span class="chart-badge">
+              MODEL
+            </span>
+
+          </div>
+
+          <div class="chart-area">
+
+            <div class="chart-y">
+              <span>100%</span>
+              <span>75%</span>
+              <span>50%</span>
+              <span>25%</span>
+              <span>0%</span>
+            </div>
+
+            <div class="chart-content">
+
+              <div class="chart-grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+
+              <svg
+                class="chart-svg"
+                viewBox="0 0 800 300"
+                preserveAspectRatio="none"
+                aria-label="Прогноз восстановления почвы"
+              >
+
+                <defs>
+                  <linearGradient
+                    id="chartFill"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stop-color="#4ADE80"
+                      stop-opacity="0.28"
+                    />
+
+                    <stop
+                      offset="100%"
+                      stop-color="#4ADE80"
+                      stop-opacity="0"
+                    />
+                  </linearGradient>
+                </defs>
+
+                <path
+                  d="
+                    M 0 265
+                    C 95 250,
+                      125 235,
+                      200 220
+                    S 330 175,
+                      400 150
+                    S 535 100,
+                      600 72
+                    S 720 42,
+                      800 25
+                    L 800 300
+                    L 0 300
+                    Z
+                  "
+                  fill="url(#chartFill)"
+                />
+
+                <path
+                  d="
+                    M 0 265
+                    C 95 250,
+                      125 235,
+                      200 220
+                    S 330 175,
+                      400 150
+                    S 535 100,
+                      600 72
+                    S 720 42,
+                      800 25
+                  "
+                  fill="none"
+                  stroke="#4ADE80"
+                  stroke-width="4"
+                  vector-effect="non-scaling-stroke"
+                />
+
+                <circle
+                  cx="0"
+                  cy="265"
+                  r="5"
+                  fill="#4ADE80"
+                />
+
+                <circle
+                  cx="200"
+                  cy="220"
+                  r="5"
+                  fill="#4ADE80"
+                />
+
+                <circle
+                  cx="400"
+                  cy="150"
+                  r="5"
+                  fill="#4ADE80"
+                />
+
+                <circle
+                  cx="600"
+                  cy="72"
+                  r="5"
+                  fill="#4ADE80"
+                />
+
+                <circle
+                  cx="800"
+                  cy="25"
+                  r="6"
+                  fill="#F5B942"
+                />
+
+              </svg>
+
+              <div class="chart-x">
+                <span>2026</span>
+                <span>2027</span>
+                <span>2028</span>
+                <span>2029</span>
+                <span>2030</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="science-side">
+
+        <div class="glass science-card">
+
+          <div class="science-icon">
+            01
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Почва
+            </h3>
+
+            <p class="card-text">
+              Состав, влажность, структура
+              и состояние растительного покрова.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass science-card">
+
+          <div class="science-icon">
+            02
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Растительность
+            </h3>
+
+            <p class="card-text">
+              Изменение биомассы и признаки
+              восстановления экосистемы.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass science-card">
+
+          <div class="science-icon">
+            03
+          </div>
+
+          <div>
+            <h3 class="card-title">
+              Вода
+            </h3>
+
+            <p class="card-text">
+              Контроль распределения влаги
+              и снижение нецелевого расхода.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== 06 · ИНВЕСТИЦИОННАЯ МОДЕЛЬ ========== -->
+
+<section class="slide" id="s6">
+  <div class="slide-inner">
+
+    <div
+      class="kicker gold"
+      data-reveal
+      data-delay="1"
+    >
+      06 · Инвестиционная модель
+    </div>
+
+    <h2
+      class="section-title"
+      data-reveal
+      data-delay="2"
+    >
+      Масштабируемая технология
+      для <span class="gold">реального рынка.</span>
+    </h2>
+
+    <p
+      class="section-description"
+      data-reveal
+      data-delay="3"
+    >
+      Продукт рассчитан прежде всего на B2B-сегмент:
+      сельскохозяйственные предприятия, владельцев
+      крупных территорий и организации, которым важно
+      одновременно повышать эффективность производства
+      и восстанавливать состояние земли.
+    </p>
+
+    <div
+      class="invest-layout"
+      data-reveal
+      data-delay="4"
+    >
+
+      <div class="glass invest-main">
+
+        <div class="invest-top">
+
+          <div>
+            <span class="kicker dim">
+              Потенциальный масштаб
+            </span>
+
+            <div class="invest-value">
+              ₽874,3 млн
+            </div>
+
+            <p class="card-text">
+              модельный годовой эффект
+              для крупного сценария применения
+            </p>
+          </div>
+
+          <div class="invest-mark">
+            ₽
+          </div>
+
+        </div>
+
+        <div class="invest-line">
+
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </div>
+
+        <div class="invest-bottom">
+
+          <div>
+            <strong>
+              25 000+
+            </strong>
+
+            <span>
+              гектаров в модельном сценарии
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              2026
+            </strong>
+
+            <span>
+              актуальный горизонт проекта
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              B2B
+            </strong>
+
+            <span>
+              основной рынок
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="invest-points">
+
+        <div class="glass invest-point">
+
+          <span class="invest-point-num">
+            01
+          </span>
+
+          <div>
+            <h3 class="card-title">
+              Клиент платит за результат
+            </h3>
+
+            <p class="card-text">
+              Ценность продукта можно привязать
+              к экономии ресурсов и измеримому
+              изменению состояния территории.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass invest-point">
+
+          <span class="invest-point-num">
+            02
+          </span>
+
+          <div>
+            <h3 class="card-title">
+              Технология масштабируется
+            </h3>
+
+            <p class="card-text">
+              После создания цифровой модели
+              платформу можно применять
+              на новых территориях.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="glass invest-point">
+
+          <span class="invest-point-num">
+            03
+          </span>
+
+          <div>
+            <h3 class="card-title">
+              Данные становятся активом
+            </h3>
+
+            <p class="card-text">
+              Каждый новый цикл работы увеличивает
+              объём данных о территориях и помогает
+              совершенствовать модель принятия решений.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="invest-footer"
+      data-reveal
+      data-delay="5"
+    >
+      <span>
+        От пилотного участка
+      </span>
+
+      <i>→</i>
+
+      <span>
+        к системе мониторинга
+      </span>
+
+      <i>→</i>
+
+      <span class="green">
+        к масштабируемой платформе
+      </span>
+    </div>
+
+  </div>
+</section>
